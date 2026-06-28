@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meme Gallery</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Theme toggle placed at top right -->
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle light theme">
+  <!-- Sun/Moon icon changes via CSS -->
+  <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle class="sun" cx="12" cy="12" r="5"></circle>
+    <path class="sun" d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+    <path class="moon" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </svg>
+</button>
+
+<div class="container">
+
+<h1>Meme Gallery</h1>
+
+<div class="slideshow">
+
+<!-- Home Slide with Top-Left and Top-Right Logo Layout -->
+<div class="slide active">
+<div class="cover-content home-cover">
+<img src="banner.jpeg" alt="Hack Club Banner" class="home-logo-left">
+<img src="logo.jpeg" alt="Bird Logo" class="home-logo-right">
+<h2>Welcome to the Ultimate Meme Gallery!</h2>
+<p>Take a nostalgic trip through the internet's most iconic memes. Click "Next" to begin the journey.</p>
+</div>
+</div>
+
+<div class="slide">
+<img src="images/doge.webp" alt="Doge">
+<h2>Doge (2013)</h2>
+<p>
+The Doge meme became famous in 2013 using a picture of a Shiba Inu dog with colorful Comic Sans text.
+It became one of the internet's most recognizable memes and even inspired Dogecoin which was a powerful coin.
+</p>
+</div>
+
+<div class="slide">
+<img src="images/drake.jpg" alt="Drake">
+<h2>Drake Hotline Bling</h2>
+<p>
+Based on Drake's music video, this meme is used to compare things people dislike and things they prefer.
+It remains one of the most popular comparison meme formats to ever be available.
+</p>
+</div>
+
+<div class="slide">
+<img src="images/distracted.jpg" alt="">
+<h2>Distracted Boyfriend</h2>
+<p>
+Taken from a stock photo, this meme exploded in 2017.
+It represents someone ignoring one thing for something new as the old (woman) is right fully irritated by the man 
+</p>
+</div>
+
+<div class="slide">
+<img src="images/successkid.jpg" alt="">
+<h2>Success Kid</h2>
+<p>
+A picture of a toddler holding sand became the symbol of small victories and unexpected success making it a nice metaphor.
+</p>
+</div>
+
+<div class="slide">
+<img src="images/woman.jpg" alt="">
+<h2>Woman Yelling At Cat</h2>
+<p>
+Combining two unrelated images created one of the funniest internet arguments ever, best for anything.
+</p>
+</div>
+
+<div class="slide">
+<img src="images/rollsafe.jpg" alt="">
+<h2>Roll Safe</h2>
+<p>
+This meme comes from a web series and is used to represent terrible logic presented as genius, just like modern problems require modern solutions.
+</p>
+</div>
+
+<div class="slide">
+<img src="images/change.jpg" alt="">
+<h2>Change My Mind</h2>
+<p>
+Steven Crowder sitting behind a table became a worldwide meme used to invite debates.
+</p>
+</div>
+
+<div class="slide">
+<img src="images/pikachu.jpg" alt="">
+<h2>Surprised Pikachu</h2>
+<p>
+A screenshot from Pokémon became the perfect reaction for predictable outcomes.
+</p>
+</div>
+
+<div class="slide">
+<img src="images/stonks.jpg" alt="">
+<h2>Stonks</h2>
+<p>
+The businessman named Meme Man represents hilariously bad financial decisions.
+</p>
+</div>
+
+<div class="slide">
+<img src="images/thisisfine.jpg" alt="">
+<h2>This Is Fine</h2>
+<p>
+Originating from the comic Gunshow, the dog calmly sits in a burning room represents ignoring chaos.
+</p>
+</div>
+
+<!-- End Slide -->
+<div class="slide">
+<div class="cover-content">
+<h2>The End!</h2>
+<p>You have reached the end of the timeline. Thanks for scrolling through internet history!</p>
+<button onclick="restartGallery()" class="restart-btn">Restart Gallery</button>
+</div>
+</div>
+
+</div>
+
+<div class="buttons">
+<button onclick="previousSlide()">Previous</button>
+<button onclick="nextSlide()">Next</button>
+</div>
+
+</div>
+
+<script>
+
+let slides = document.querySelectorAll(".slide");
+let current = 0;
+
+function playBrowserSound() {
+    try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const ctx = new AudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(600, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(150, ctx.currentTime + 0.05);
+        
+        gain.gain.setValueAtTime(0.15, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+        
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        
+        osc.start();
+        osc.stop(ctx.currentTime + 0.05);
+    } catch (e) {
+        console.error("Audio block: ", e);
+    }
+}
+
+function showSlide(index) {
+    slides.forEach(slide => {
+        slide.classList.remove("active");
+    });
+    slides[index].classList.add("active");
+}
+
+function nextSlide() {
+    playBrowserSound();
+    current++;
+    if (current >= slides.length) {
+        current = 0;
+    }
+    showSlide(current);
+}
+
+function previousSlide() {
+    playBrowserSound();
+    current--;
+    if (current < 0) {
+        current = slides.length - 1;
+    }
+    showSlide(current);
+}
+
+function restartGallery() {
+    playBrowserSound();
+    current = 0;
+    showSlide(current);
+}
+
+function toggleTheme() {
+    playBrowserSound();
+    document.body.classList.toggle("light-theme");
+}
+
+</script>
+
+</body>
+</html>
